@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPA English Pro - Học 5000 Từ Vựng Giao Tiếp</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark-theme">
+    <div class="app-container">
+        <!-- Sidebar: Bảng âm IPA -->
+        <aside class="app-sidebar" id="appSidebar">
+            <div class="sidebar-header">
+                <div class="logo-area">
+                    <div class="logo-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <div>
+                        <h1 class="logo-title">IPA English</h1>
+                        <span class="logo-subtitle">Master 5000 Words</span>
+                    </div>
+                </div>
+                <button class="close-sidebar-btn" id="closeSidebarBtn" aria-label="Đóng Menu"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="sidebar-menu">
+                <h3 class="menu-section-title">NGUYÊN ÂM ĐƠN (Monophthongs)</h3>
+                <div class="sound-grid" id="monophthongsGrid"></div>
+
+                <h3 class="menu-section-title">NGUYÊN ÂM ĐÔI (Diphthongs)</h3>
+                <div class="sound-grid" id="diphthongsGrid"></div>
+
+                <h3 class="menu-section-title">PHỤ ÂM (Consonants)</h3>
+                <div class="sound-grid" id="consonantsGrid"></div>
+            </div>
+        </aside>
+
+        <!-- Main Dashboard Panel -->
+        <main class="app-main">
+            <!-- Top Navigation Bar -->
+            <header class="main-header">
+                <div class="header-left">
+                    <button class="menu-toggle-btn" id="menuToggleBtn" aria-label="Mở Menu"><i class="fa-solid fa-bars"></i></button>
+                    <!-- Search Input -->
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="searchInput" placeholder="Tìm kiếm từ vựng hoặc nghĩa tiếng Việt..." aria-label="Tìm kiếm từ vựng">
+                    </div>
+                </div>
+
+                <div class="header-right">
+                    <!-- Theme Toggle -->
+                    <button class="theme-toggle-btn" id="themeToggleBtn" title="Đổi giao diện"><i class="fa-solid fa-sun"></i></button>
+                </div>
+            </header>
+
+            <!-- Dashboard Stats & Filters -->
+            <section class="dashboard-control-panel">
+                <div class="filter-row">
+                    <!-- CEFR Filters -->
+                    <div class="filter-group">
+                        <span class="filter-label">Cấp độ CEFR:</span>
+                        <div class="cefr-filter-buttons" id="cefrFilterContainer">
+                            <button class="cefr-btn active" data-cefr="all">Tất cả</button>
+                            <button class="cefr-btn cefr-a1" data-cefr="A1">A1</button>
+                            <button class="cefr-btn cefr-a2" data-cefr="A2">A2</button>
+                            <button class="cefr-btn cefr-b1" data-cefr="B1">B1</button>
+                            <button class="cefr-btn cefr-b2" data-cefr="B2">B2</button>
+                            <button class="cefr-btn cefr-c1" data-cefr="C1">C1</button>
+                        </div>
+                    </div>
+
+                    <!-- POS & Filter dropdowns -->
+                    <div class="filter-group select-filters">
+                        <span class="filter-label">Từ loại:</span>
+                        <select id="posSelectInput" aria-label="Lọc theo từ loại">
+                            <option value="all">Tất cả từ loại</option>
+                            <option value="noun">Danh từ (noun)</option>
+                            <option value="verb">Động từ (verb)</option>
+                            <option value="adjective">Tính từ (adjective)</option>
+                            <option value="adverb">Trạng từ (adverb)</option>
+                            <option value="preposition">Giới từ (preposition)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs (Study, Flashcards, Bookmarks, Learned) -->
+                <div class="tab-navigation">
+                    <button class="nav-tab-btn active" id="tabStudy" data-mode="study">
+                        <i class="fa-solid fa-grip"></i> Học tập (Lưới thẻ)
+                    </button>
+                    <button class="nav-tab-btn" id="tabFlashcard" data-mode="flashcard">
+                        <i class="fa-solid fa-square-poll-horizontal"></i> Flashcard 3D
+                    </button>
+                    <button class="nav-tab-btn" id="tabBookmark" data-mode="bookmark">
+                        <i class="fa-solid fa-bookmark"></i> Đã lưu (<span id="bookmarkCount">0</span>)
+                    </button>
+                    <button class="nav-tab-btn" id="tabLearned" data-mode="learned">
+                        <i class="fa-solid fa-circle-check"></i> Đã thuộc (<span id="learnedCount">0</span>)
+                    </button>
+                </div>
+            </section>
+
+            <!-- Current sound details banner -->
+            <section class="current-sound-banner" id="currentSoundBanner">
+                <div class="sound-info">
+                    <span class="sound-symbol" id="bannerSoundSymbol">/iː/</span>
+                    <div>
+                        <h2 class="sound-title" id="bannerSoundName">Vowel - ee (see)</h2>
+                        <span class="sound-count" id="bannerSoundCount">0 từ vựng</span>
+                    </div>
+                </div>
+                <!-- Mini stats for this sound -->
+                <div class="sound-stats">
+                    <div class="stat-pill">
+                        <span class="stat-number" id="soundStatLearned">0</span>
+                        <span class="stat-desc">Đã thuộc</span>
+                    </div>
+                    <div class="stat-pill">
+                        <span class="stat-number" id="soundStatTotal">0</span>
+                        <span class="stat-desc">Tổng số</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Area -->
+            <div class="app-content-area">
+                <!-- GRID CARDS VIEW -->
+                <div class="content-view active" id="studyView">
+                    <div class="vocabulary-grid" id="vocabularyGrid"></div>
+                    <div class="loading-trigger" id="loadingTrigger">
+                        <div class="spinner"></div> Đang tải thêm từ vựng...
+                    </div>
+                </div>
+
+                <!-- FLASHCARD VIEW -->
+                <div class="content-view" id="flashcardView">
+                    <div class="flashcard-container">
+                        <div class="flashcard-arena">
+                            <div class="flip-card" id="flipCard">
+                                <div class="flip-card-inner">
+                                    <!-- Front -->
+                                    <div class="flip-card-front">
+                                        <div class="card-hint">MẶT TRƯỚC - BẤM ĐỂ LẬT NGHĨA</div>
+                                        <div class="card-main-word" id="fcWord">abandon</div>
+                                        <div class="card-pos-cefr">
+                                            <span class="pos-badge" id="fcPos">verb</span>
+                                            <span class="cefr-badge cefr-b2" id="fcCefr">B2</span>
+                                        </div>
+                                        <div class="fc-ipa-area">
+                                            <span class="fc-ipa" id="fcIpa">/əˈbændən/</span>
+                                            <div class="fc-audio-row">
+                                                <button class="fc-audio-btn" id="fcAudioUsBtn" title="Phát âm US"><i class="fa-solid fa-volume-high"></i> US</button>
+                                                <button class="fc-audio-btn" id="fcAudioUkBtn" title="Phát âm UK"><i class="fa-solid fa-volume-high"></i> UK</button>
+                                            </div>
+                                        </div>
+                                        <div class="fc-spelling-pattern">
+                                            Dấu hiệu chính tả chính: <strong id="fcSpelling">a</strong>
+                                        </div>
+                                        <div class="fc-mic-section">
+                                            <button class="fc-mic-btn" id="fcMicBtn" title="Luyện phát âm"><i class="fa-solid fa-microphone"></i></button>
+                                            <div class="fc-mic-status" id="fcMicStatus">Bấm Mic rồi đọc từ này lên</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Back -->
+                                    <div class="flip-card-back">
+                                        <div class="card-hint">MẶT SAU - NGHĨA & VÍ DỤ</div>
+                                        <div class="fc-meanings">
+                                            <div class="meaning-group">
+                                                <span class="meaning-title">Nghĩa tiếng Việt:</span>
+                                                <p class="meaning-desc" id="fcDefVi">ruồng bỏ, từ bỏ, bỏ rơi</p>
+                                            </div>
+                                            <div class="meaning-group">
+                                                <span class="meaning-title">Nghĩa tiếng Anh:</span>
+                                                <p class="meaning-desc" id="fcDefEn">to leave a place, thing, or person forever</p>
+                                            </div>
+                                        </div>
+                                        <div class="meaning-group">
+                                            <span class="meaning-title">Hoàn cảnh giao tiếp:</span>
+                                            <p class="context-desc" id="fcContext">Giao tiếp thông dụng</p>
+                                        </div>
+                                        <div class="meaning-group">
+                                            <span class="meaning-title">Ví dụ & Ngữ pháp:</span>
+                                            <pre class="grammar-desc" id="fcGrammar">- The baby was abandoned in a basket. -> Đứa bé bị bỏ rơi trong một chiếc giỏ.</pre>
+                                        </div>
+                                        <!-- Actions inside flashcard -->
+                                        <div class="fc-actions">
+                                            <button class="fc-action-btn action-bookmark" id="fcBookmarkBtn"><i class="fa-solid fa-bookmark"></i> Lưu từ</button>
+                                            <button class="fc-action-btn action-learned" id="fcLearnedBtn"><i class="fa-solid fa-circle-check"></i> Đã thuộc</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Flashcard Controls -->
+                        <div class="flashcard-controls">
+                            <button class="control-btn" id="fcPrevBtn" title="Từ trước"><i class="fa-solid fa-arrow-left"></i></button>
+                            <span class="fc-progress-indicator" id="fcProgress">1 / 100</span>
+                            <button class="control-btn" id="fcNextBtn" title="Từ tiếp theo"><i class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EMPTY STATE / NO DATA VIEW -->
+                <div class="empty-state-view" id="emptyStateView">
+                    <i class="fa-solid fa-folder-open empty-icon"></i>
+                    <h3 class="empty-title">Không tìm thấy từ vựng nào</h3>
+                    <p class="empty-desc">Thử thay đổi bộ lọc cấp độ CEFR, từ loại hoặc nhập từ khóa tìm kiếm khác.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Speech API Recognition Feedback Overlay -->
+    <div class="speech-feedback-overlay" id="speechOverlay">
+        <div class="speech-modal">
+            <div class="wave-loader">
+                <span class="stroke"></span>
+                <span class="stroke"></span>
+                <span class="stroke"></span>
+                <span class="stroke"></span>
+                <span class="stroke"></span>
+            </div>
+            <h3>Đang lắng nghe...</h3>
+            <p>Hãy đọc to từ: <strong id="speechWordToSay">abandon</strong></p>
+            <div class="speech-transcript" id="speechTranscript">"..."</div>
+            <div class="speech-result" id="speechResult"></div>
+            <button class="close-speech-btn" id="closeSpeechBtn">Đóng</button>
+        </div>
+    </div>
+
+    <!-- Data and App Scripts -->
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
