@@ -14,6 +14,13 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="dark-theme">
+    <!-- Aurora Glow Background Blobs -->
+    <div class="aurora-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
     <div class="app-container">
         <!-- Sidebar: Bảng âm IPA -->
         <aside class="app-sidebar" id="appSidebar">
@@ -37,6 +44,18 @@
 
                 <h3 class="menu-section-title">PHỤ ÂM (Consonants)</h3>
                 <div class="sound-grid" id="consonantsGrid"></div>
+
+                <h3 class="menu-section-title">GRAMMAR HUB / TỔNG QUAN NGỮ PHÁP</h3>
+                <div class="grammar-menu-list" id="grammarMenuList"></div>
+
+                <h3 class="menu-section-title">IELTS 5.0 ROADMAP / LỘ TRÌNH 5.0</h3>
+                <div class="grammar-menu-list" id="roadmapMenuList"></div>
+
+                <h3 class="menu-section-title">IELTS 6.5 ROADMAP / LỘ TRÌNH 6.5</h3>
+                <div class="grammar-menu-list" id="roadmap65MenuList"></div>
+
+                <h3 class="menu-section-title">IELTS 7.0 ROADMAP / LỘ TRÌNH 7.0</h3>
+                <div class="grammar-menu-list" id="roadmap70MenuList"></div>
             </div>
         </aside>
 
@@ -50,52 +69,78 @@
                     <div class="search-box">
                         <i class="fa-solid fa-magnifying-glass search-icon"></i>
                         <input type="text" id="searchInput" placeholder="Tìm kiếm từ vựng hoặc nghĩa tiếng Việt..." aria-label="Tìm kiếm từ vựng">
+                        <button class="voice-search-btn" id="voiceSearchBtn" title="Tìm kiếm bằng giọng nói"><i class="fa-solid fa-microphone"></i></button>
                     </div>
                 </div>
 
                 <div class="header-right">
+                    <!-- Settings Button -->
+                    <button class="settings-btn" id="settingsBtn" title="Cài đặt AI"><i class="fa-solid fa-gear"></i></button>
                     <!-- Theme Toggle -->
                     <button class="theme-toggle-btn" id="themeToggleBtn" title="Đổi giao diện"><i class="fa-solid fa-sun"></i></button>
                 </div>
             </header>
 
-            <!-- Dashboard Stats & Filters -->
+            <!-- Dashboard Control Panel (Filters & Progress) -->
             <section class="dashboard-control-panel">
-                <div class="filter-row">
-                    <!-- CEFR Filters -->
-                    <div class="filter-group">
-                        <span class="filter-label">Cấp độ CEFR:</span>
-                        <div class="cefr-filter-buttons" id="cefrFilterContainer">
-                            <button class="cefr-btn active" data-cefr="all">Tất cả</button>
-                            <button class="cefr-btn cefr-a1" data-cefr="A1">A1</button>
-                            <button class="cefr-btn cefr-a2" data-cefr="A2">A2</button>
-                            <button class="cefr-btn cefr-b1" data-cefr="B1">B1</button>
-                            <button class="cefr-btn cefr-b2" data-cefr="B2">B2</button>
-                            <button class="cefr-btn cefr-c1" data-cefr="C1">C1</button>
+                <div class="control-panel-top">
+                    <!-- Left: Filters -->
+                    <div class="filters-column">
+                        <div class="filter-row">
+                            <div class="filter-group">
+                                <span class="filter-label">Cấp độ:</span>
+                                <div class="cefr-filter-buttons" id="cefrFilterContainer">
+                                    <button class="cefr-btn active" data-cefr="all">Tất cả</button>
+                                    <button class="cefr-btn cefr-a1" data-cefr="A1">A1</button>
+                                    <button class="cefr-btn cefr-a2" data-cefr="A2">A2</button>
+                                    <button class="cefr-btn cefr-b1" data-cefr="B1">B1</button>
+                                    <button class="cefr-btn cefr-b2" data-cefr="B2">B2</button>
+                                    <button class="cefr-btn cefr-c1" data-cefr="C1">C1</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="filter-row" style="margin-top: 10px;">
+                            <div class="filter-group select-filters">
+                                <span class="filter-label">Từ loại:</span>
+                                <select id="posSelectInput" aria-label="Lọc theo từ loại">
+                                    <option value="all">Tất cả từ loại</option>
+                                    <option value="noun">Danh từ (noun)</option>
+                                    <option value="verb">Động từ (verb)</option>
+                                    <option value="adjective">Tính từ (adjective)</option>
+                                    <option value="adverb">Trạng từ (adverb)</option>
+                                    <option value="preposition">Giới từ (preposition)</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- POS & Filter dropdowns -->
-                    <div class="filter-group select-filters">
-                        <span class="filter-label">Từ loại:</span>
-                        <select id="posSelectInput" aria-label="Lọc theo từ loại">
-                            <option value="all">Tất cả từ loại</option>
-                            <option value="noun">Danh từ (noun)</option>
-                            <option value="verb">Động từ (verb)</option>
-                            <option value="adjective">Tính từ (adjective)</option>
-                            <option value="adverb">Trạng từ (adverb)</option>
-                            <option value="preposition">Giới từ (preposition)</option>
-                        </select>
+                    <!-- Right: Premium Progress Widget -->
+                    <div class="progress-widget" id="progressWidget">
+                        <div class="progress-ring-container">
+                            <svg class="progress-ring" width="54" height="54">
+                                <circle class="progress-ring-circle-bg" stroke="var(--border-subtle)" stroke-width="4" fill="transparent" r="22" cx="27" cy="27"/>
+                                <circle class="progress-ring-circle" id="progressRingCircle" stroke="var(--color-primary)" stroke-width="4" fill="transparent" r="22" cx="27" cy="27"/>
+                            </svg>
+                            <div class="progress-percentage" id="progressPercentage">0%</div>
+                        </div>
+                        <div class="progress-text-info">
+                            <span class="progress-main-title">Tiến trình học</span>
+                            <span class="progress-sub-title" id="progressSubTitle">0 / 4957 từ</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Navigation Tabs (Study, Flashcards, Bookmarks, Learned) -->
+                <!-- Navigation Tabs (Study, Flashcards, Quiz, Bookmarks, Learned) -->
                 <div class="tab-navigation">
                     <button class="nav-tab-btn active" id="tabStudy" data-mode="study">
                         <i class="fa-solid fa-grip"></i> Học tập (Lưới thẻ)
                     </button>
                     <button class="nav-tab-btn" id="tabFlashcard" data-mode="flashcard">
                         <i class="fa-solid fa-square-poll-horizontal"></i> Flashcard 3D
+                    </button>
+                    <button class="nav-tab-btn" id="tabQuiz" data-mode="quiz">
+                        <i class="fa-solid fa-circle-question"></i> Trắc nghiệm
                     </button>
                     <button class="nav-tab-btn" id="tabBookmark" data-mode="bookmark">
                         <i class="fa-solid fa-bookmark"></i> Đã lưu (<span id="bookmarkCount">0</span>)
@@ -108,22 +153,46 @@
 
             <!-- Current sound details banner -->
             <section class="current-sound-banner" id="currentSoundBanner">
-                <div class="sound-info">
-                    <span class="sound-symbol" id="bannerSoundSymbol">/iː/</span>
-                    <div>
-                        <h2 class="sound-title" id="bannerSoundName">Vowel - ee (see)</h2>
-                        <span class="sound-count" id="bannerSoundCount">0 từ vựng</span>
+                <div class="banner-top-row">
+                    <div class="sound-info">
+                        <div class="sound-symbol-wrapper">
+                            <span class="sound-symbol" id="bannerSoundSymbol">/iː/</span>
+                            <button class="play-raw-sound-btn" id="playRawSoundBtn" title="Nghe phát âm âm này"><i class="fa-solid fa-volume-high"></i></button>
+                        </div>
+                        <div>
+                            <h2 class="sound-title" id="bannerSoundName">Vowel - ee (see)</h2>
+                            <span class="sound-count" id="bannerSoundCount">0 từ vựng</span>
+                        </div>
+                    </div>
+                    <!-- Banner Sample Pronunciation Widget -->
+                    <div class="banner-sample-pronunciation" id="bannerSamplePronunciation">
+                        <span class="sample-label">Từ phát âm mẫu / Sample:</span>
+                        <span class="sample-word-highlight" id="bannerSampleWord">see</span>
+                        <div class="sample-audio-btns">
+                            <button class="audio-mini-btn play-banner-sample-us" id="playBannerSampleUs" title="Nghe giọng Mỹ (US)"><i class="fa-solid fa-volume-high"></i> US</button>
+                            <button class="audio-mini-btn play-banner-sample-uk" id="playBannerSampleUk" title="Nghe giọng Anh (UK)"><i class="fa-solid fa-volume-high"></i> UK</button>
+                            <button class="audio-mini-btn play-banner-sample-kid" id="playBannerSampleKid" title="Nghe giọng Trẻ em (KID)"><i class="fa-solid fa-child"></i> KID</button>
+                        </div>
+                    </div>
+                    <!-- Mini stats for this sound -->
+                    <div class="sound-stats">
+                        <div class="stat-pill">
+                            <span class="stat-number" id="soundStatLearned">0</span>
+                            <span class="stat-desc">Đã thuộc</span>
+                        </div>
+                        <div class="stat-pill">
+                            <span class="stat-number" id="soundStatTotal">0</span>
+                            <span class="stat-desc">Tổng số</span>
+                        </div>
                     </div>
                 </div>
-                <!-- Mini stats for this sound -->
-                <div class="sound-stats">
-                    <div class="stat-pill">
-                        <span class="stat-number" id="soundStatLearned">0</span>
-                        <span class="stat-desc">Đã thuộc</span>
-                    </div>
-                    <div class="stat-pill">
-                        <span class="stat-number" id="soundStatTotal">0</span>
-                        <span class="stat-desc">Tổng số</span>
+                
+                <!-- Pronunciation Guide Row -->
+                <div class="banner-guide-row" id="bannerGuideRow">
+                    <div class="guide-badge"><i class="fa-solid fa-graduation-cap"></i> Hướng dẫn phát âm / Pronunciation Guide:</div>
+                    <div class="guide-content">
+                        <p class="guide-eng" id="bannerGuideEng">Loading guide...</p>
+                        <p class="guide-vi" id="bannerGuideVi">Đang tải hướng dẫn...</p>
                     </div>
                 </div>
             </section>
@@ -157,6 +226,7 @@
                                             <div class="fc-audio-row">
                                                 <button class="fc-audio-btn" id="fcAudioUsBtn" title="Phát âm US"><i class="fa-solid fa-volume-high"></i> US</button>
                                                 <button class="fc-audio-btn" id="fcAudioUkBtn" title="Phát âm UK"><i class="fa-solid fa-volume-high"></i> UK</button>
+                                                <button class="fc-audio-btn" id="fcAudioKidBtn" title="Phát âm KID (4-10 tuổi)"><i class="fa-solid fa-child"></i> KID</button>
                                             </div>
                                         </div>
                                         <div class="fc-spelling-pattern">
@@ -177,18 +247,18 @@
                                                 <p class="meaning-desc" id="fcDefVi">ruồng bỏ, từ bỏ, bỏ rơi</p>
                                             </div>
                                             <div class="meaning-group">
-                                                <span class="meaning-title">Nghĩa tiếng Anh:</span>
+                                                <span class="meaning-title">Giải nghĩa (Eng-Eng):</span>
                                                 <p class="meaning-desc" id="fcDefEn">to leave a place, thing, or person forever</p>
                                             </div>
                                         </div>
                                         <div class="meaning-group">
-                                            <span class="meaning-title">Hoàn cảnh giao tiếp:</span>
-                                            <p class="context-desc" id="fcContext">Giao tiếp thông dụng</p>
-                                        </div>
-                                        <div class="meaning-group">
-                                            <span class="meaning-title">Ví dụ & Ngữ pháp:</span>
-                                            <pre class="grammar-desc" id="fcGrammar">- The baby was abandoned in a basket. -> Đứa bé bị bỏ rơi trong một chiếc giỏ.</pre>
-                                        </div>
+                                             <span class="meaning-title">Context / Hoàn cảnh giao tiếp:</span>
+                                             <p class="context-desc" id="fcContext">Giao tiếp thông dụng</p>
+                                         </div>
+                                          <div class="meaning-group" style="width: 100%;">
+                                              <span class="meaning-title">Grammar & Structure / Cấu trúc & Ngữ pháp:</span>
+                                              <div id="fcGrammar" style="width: 100%;"></div>
+                                          </div>
                                         <!-- Actions inside flashcard -->
                                         <div class="fc-actions">
                                             <button class="fc-action-btn action-bookmark" id="fcBookmarkBtn"><i class="fa-solid fa-bookmark"></i> Lưu từ</button>
@@ -208,6 +278,75 @@
                     </div>
                 </div>
 
+                <!-- QUIZ VIEW -->
+                <div class="content-view" id="quizView">
+                    <div class="quiz-container">
+                        <!-- Quiz Start Screen -->
+                        <div class="quiz-card" id="quizStartScreen">
+                            <i class="fa-solid fa-gamepad quiz-card-icon"></i>
+                            <h3 class="quiz-title">Thử thách trắc nghiệm: Âm <span id="quizStartSound">/iː/</span></h3>
+                            <p class="quiz-desc">Hệ thống sẽ chọn ngẫu nhiên 5 từ vựng thuộc âm đang học để kiểm tra phản xạ ghi nhớ nghĩa tiếng Việt của bạn. Bạn đã sẵn sàng chưa?</p>
+                            <button class="quiz-start-btn" id="quizStartBtn">BẮT ĐẦU ÔN TẬP</button>
+                        </div>
+                        
+                        <!-- Quiz Question Screen -->
+                        <div class="quiz-card" id="quizQuestionScreen" style="display: none;">
+                            <div class="quiz-header">
+                                <span class="quiz-question-number" id="quizQuestionNum">Câu hỏi 1 / 5</span>
+                                <div class="quiz-score-pill">Điểm: <span id="quizScoreText">0</span></div>
+                            </div>
+                            
+                            <div class="quiz-question-word" id="quizQuestionWord">abandon</div>
+                            <div class="quiz-question-ipa-row" style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 10px;">
+                                <span class="quiz-question-ipa" id="quizQuestionIpa">/əˈbændən/</span>
+                                <div class="quiz-audio-group" style="display: flex; gap: 6px;">
+                                    <button class="audio-mini-btn" id="quizAudioUsBtn" title="Nghe giọng Mỹ"><i class="fa-solid fa-volume-high"></i> US</button>
+                                    <button class="audio-mini-btn" id="quizAudioUkBtn" title="Nghe giọng Anh"><i class="fa-solid fa-volume-high"></i> UK</button>
+                                    <button class="audio-mini-btn" id="quizAudioKidBtn" title="Nghe giọng Trẻ em (4-10 tuổi)"><i class="fa-solid fa-child"></i> KID</button>
+                                </div>
+                            </div>
+                            
+                            <div class="quiz-options-list" id="quizOptionsList">
+                                <!-- Option buttons will be generated dynamically -->
+                            </div>
+                            
+                            <div class="quiz-explanation" id="quizExplanation" style="display: none;">
+                                <div class="quiz-explanation-inner">
+                                    <span class="quiz-explain-label">Đáp án đúng & Ví dụ:</span>
+                                    <p class="quiz-explain-word-vi" id="quizExplainVi">ruồng bỏ, từ bỏ</p>
+                                    <pre class="quiz-explain-examples" id="quizExplainExamples">- Example sentence here</pre>
+                                </div>
+                                <button class="quiz-next-btn" id="quizNextBtn">Tiếp theo <i class="fa-solid fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+                        
+                        <!-- Quiz Result Screen -->
+                        <div class="quiz-card" id="quizResultScreen" style="display: none;">
+                            <i class="fa-solid fa-trophy quiz-trophy-icon" id="quizResultIcon"></i>
+                            <h3 class="quiz-title" id="quizResultTitle">Hoàn thành thử thách!</h3>
+                            <div class="quiz-score-circle">
+                                <span class="quiz-score-val" id="quizResultScore">4 / 5</span>
+                                <span class="quiz-score-sub">Chính xác</span>
+                            </div>
+                            <p class="quiz-desc" id="quizResultDesc">Tuyệt vời! Bạn đang ghi nhớ từ vựng rất tốt.</p>
+                            <div class="quiz-result-actions">
+                                <button class="quiz-action-btn btn-retry" id="quizRetryBtn"><i class="fa-solid fa-rotate-right"></i> Chơi lại</button>
+                                <button class="quiz-action-btn btn-back" id="quizBackBtn"><i class="fa-solid fa-grip"></i> Về học tập</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GRAMMAR VIEW -->
+                <div class="content-view" id="grammarView">
+                    <div class="grammar-container" id="grammarContentContainer"></div>
+                </div>
+
+                <!-- ROADMAP VIEW -->
+                <div class="content-view" id="roadmapView">
+                    <div class="grammar-container" id="roadmapContentContainer"></div>
+                </div>
+
                 <!-- EMPTY STATE / NO DATA VIEW -->
                 <div class="empty-state-view" id="emptyStateView">
                     <i class="fa-solid fa-folder-open empty-icon"></i>
@@ -216,6 +355,42 @@
                 </div>
             </div>
         </main>
+    </div>
+
+    <!-- Settings AI Modal -->
+    <div class="settings-modal-overlay" id="settingsModal" style="display: none;">
+        <div class="settings-modal-card">
+            <div class="settings-modal-header">
+                <h3><i class="fa-solid fa-robot"></i> Cấu hình Gemini AI</h3>
+                <button class="close-settings-modal" id="closeSettingsModalBtn" title="Đóng"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="settings-modal-body">
+                <p class="settings-intro">Nhập Gemini API Key của bạn để mở khóa tính năng tự động tạo hội thoại mẫu giao tiếp thực tế cho từ vựng.</p>
+                <div class="settings-input-group">
+                    <label for="geminiApiKeyInput">Gemini API Key:</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="geminiApiKeyInput" placeholder="Nhập API Key của bạn tại đây..." aria-label="Gemini API Key">
+                        <button class="toggle-password-btn" id="toggleApiKeyVisibility" title="Hiện/Ẩn Key"><i class="fa-solid fa-eye"></i></button>
+                    </div>
+                </div>
+                <div class="settings-help-box">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <div>
+                        <strong>Cách lấy API Key miễn phí:</strong>
+                        <ol>
+                            <li>Truy cập vào <a href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">Google AI Studio <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.7rem;"></i></a>.</li>
+                            <li>Đăng nhập bằng tài khoản Google của bạn.</li>
+                            <li>Bấm vào nút <strong>"Get API key"</strong> ở góc trên bên trái, sau đó tạo một khóa mới.</li>
+                            <li>Sao chép khóa và dán vào ô nhập ở trên. API Key này hoàn toàn miễn phí cho tài khoản cá nhân.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="settings-modal-footer">
+                <button class="settings-action-btn btn-secondary" id="cancelSettingsBtn">Hủy</button>
+                <button class="settings-action-btn btn-primary" id="saveSettingsBtn"><i class="fa-solid fa-floppy-disk"></i> Lưu cài đặt</button>
+            </div>
+        </div>
     </div>
 
     <!-- Speech API Recognition Feedback Overlay -->
@@ -238,6 +413,7 @@
 
     <!-- Data and App Scripts -->
     <script src="data.js"></script>
+    <script src="roadmap_data.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
